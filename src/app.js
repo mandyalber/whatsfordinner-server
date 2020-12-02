@@ -15,7 +15,7 @@ app.use(helmet())
 app.use(cors({ origin: CLIENT_ORIGIN }))
 
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", CLIENT_ORIGIN);
+  res.setHeader("Access-Control-Allow-Origin", 'https://whatsfordinner-app.vercel.app/');
   res.setHeader(
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content-Type, Accept, Authorization"
