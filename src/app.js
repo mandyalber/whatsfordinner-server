@@ -12,7 +12,12 @@ const morganOption = (NODE_ENV === 'production') ? 'tiny' : 'common';
 
 app.use(morgan(morganOption))
 app.use(helmet())
-app.use(cors())
+
+app.use(
+  cors({
+      origin: CLIENT_ORIGIN
+  })
+);
 /*
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", 'https://whatsfordinner-app.vercel.app/');
@@ -27,7 +32,7 @@ app.use((req, res, next) => {
   next();
 });*/
 
-app.get('/api/recipes', function handleGetMovies(req, res) {
+app.get('/api/recipes', function handleGetRecipes(req, res) {
   let response = recipeList
    res.json(response)
 })
