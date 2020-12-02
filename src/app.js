@@ -14,6 +14,19 @@ app.use(morgan(morganOption))
 app.use(helmet())
 app.use(cors({ origin: CLIENT_ORIGIN }))
 
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", CLIENT_ORIGIN);
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+  );
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PATCH, PUT, DELETE, OPTIONS"
+  );
+  next();
+});
+
 app.get('/api/recipes', function handleGetMovies(req, res) {
   let response = recipeList
    res.json(response)
