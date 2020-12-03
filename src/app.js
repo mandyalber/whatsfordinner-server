@@ -14,7 +14,7 @@ app.use(morgan(morganOption))
 app.use(helmet())
 
 app.use(cors());
-/*
+
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", 'https://whatsfordinner-app.vercel.app/');
   res.setHeader(
@@ -26,7 +26,7 @@ app.use((req, res, next) => {
     "GET, POST, PATCH, PUT, DELETE, OPTIONS"
   );
   next();
-});*/
+});
 
 app.get('/api/recipes', function handleGetRecipes(req, res) {
   let response = recipeList
