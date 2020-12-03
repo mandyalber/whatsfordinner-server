@@ -13,16 +13,7 @@ const morganOption = (NODE_ENV === 'production') ? 'tiny' : 'common';
 app.use(morgan(morganOption))
 app.use(helmet())
 
-<<<<<<< HEAD
-var corsOptions = {
-  origin: 'https://whatsfordinner-app.vercel.app/',
-  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-}
-
-app.use(cors(corsOptions));
-=======
-app.use(cors());
->>>>>>> parent of 67cbd84... updated CORS header
+app.use(cors()); 
 /*
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", 'https://whatsfordinner-app.vercel.app/');
