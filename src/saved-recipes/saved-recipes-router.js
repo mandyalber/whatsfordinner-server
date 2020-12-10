@@ -5,9 +5,17 @@ const SavedRecipesService = require('./saved-recipes-service')
 const savedRecipesRouter = express.Router()
 const jsonParser = express.json()
 
+const recipeDefault = { "title": "See More Recipes Here", "summary": "Please add at least 7 recipes to your profile in order to see a full week of recipe suggestions" }
+
 function getRandomArray(array) {
     let newArray = [];
+    const len = array.length
 
+    if (len < 7) {
+        for (let i = 0; i < 7 - len; i++) {
+            array.push(recipeDefault)
+        }
+    }
     for (let i = 0; i < 7; i++) {
         let idx = Math.floor(Math.random() * array.length)
         newArray.push(array[idx])
