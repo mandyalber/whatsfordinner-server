@@ -1,1 +1,2 @@
 DROP TABLE IF EXISTS saved_recipes;
+DROP TABLE IF EXISTS wfd_users;

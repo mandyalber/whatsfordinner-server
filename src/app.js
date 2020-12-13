@@ -6,6 +6,7 @@ const helmet = require('helmet')
 const { CLIENT_ORIGIN, NODE_ENV } = require('./config')
 const savedRecipesRouter = require('./saved-recipes/saved-recipes-router')
 const searchRecipesRouter = require('./search-recipes/search-recipes-router')
+const authRouter = require('./auth/auth-router')
 
 const app = express()
 
@@ -18,17 +19,20 @@ app.use(cors());
 
 app.use('/api/saved-recipes', savedRecipesRouter)
 app.use('/api/search-recipes', searchRecipesRouter)
+app.use('/api/auth', authRouter)
+
 
 app.use(function errorHandler(error, req, res, next) {
   let response
   if (NODE_ENV === 'production') {
-    response = { error: { message: 'server error' } }
+    response = { error: 'Server error' }
   } else {
     console.error(error)
-    response = { message: error.message, error }
+    response = { error: error.message, object: error }
   }
   res.status(500).json(response)
 })
+
 
 module.exports = app
 
