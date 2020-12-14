@@ -7,6 +7,7 @@ const { CLIENT_ORIGIN, NODE_ENV } = require('./config')
 const savedRecipesRouter = require('./saved-recipes/saved-recipes-router')
 const searchRecipesRouter = require('./search-recipes/search-recipes-router')
 const authRouter = require('./auth/auth-router')
+const usersRouter = require('./users/users-router')
 
 const app = express()
 
@@ -20,6 +21,7 @@ app.use(cors());
 app.use('/api/saved-recipes', savedRecipesRouter)
 app.use('/api/search-recipes', searchRecipesRouter)
 app.use('/api/auth', authRouter)
+app.use('/api/users', usersRouter)
 
 
 app.use(function errorHandler(error, req, res, next) {
