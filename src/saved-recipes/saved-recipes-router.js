@@ -27,10 +27,19 @@ function getRandomArray(array) {
 
 savedRecipesRouter
     .route('/')
-    .all(requireAuth)
+    .all(requireAuth)/*
     .get((req, res, next) => {
         const knexInstance = req.app.get('db')
         SavedRecipesService.getAllRecipes(knexInstance)
+            .then(recipes => {
+                res.json(recipes)
+            })
+            .catch(next)
+    })*/
+    .get((req, res, next) => {
+        const knexInstance = req.app.get('db')
+        console.log(req)
+        SavedRecipesService.getRecipesByUserId(knexInstance, req.user.id)
             .then(recipes => {
                 res.json(recipes)
             })
