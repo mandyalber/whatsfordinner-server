@@ -38,7 +38,6 @@ savedRecipesRouter
     })*/
     .get((req, res, next) => {
         const knexInstance = req.app.get('db')
-        console.log(req)
         SavedRecipesService.getRecipesByUserId(knexInstance, req.user.id)
             .then(recipes => {
                 res.json(recipes)
@@ -59,9 +58,10 @@ savedRecipesRouter
 
 savedRecipesRouter
     .route('/weekdays')
+    .all(requireAuth)
     .get((req, res, next) => {
         const knexInstance = req.app.get('db')
-        SavedRecipesService.getAllRecipes(knexInstance)
+        SavedRecipesService.getRecipesByUserId(knexInstance, req.user.id)
             .then(recipes => {
                 res.json(getRandomArray(recipes))
             })

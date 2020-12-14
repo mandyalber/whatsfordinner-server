@@ -6,7 +6,7 @@ const SavedRecipeService = {
         return knex.insert(newRecipe).into('saved_recipes').returning('*').then(rows => { return rows[0] })
     },
     getRecipesByUserId(knex, userId) {
-        return knex.from('saved_recipes').select('*').where('userId', userId).first()
+        return knex.from('saved_recipes').select('*').where('userId', userId)
     },   
 }
 
