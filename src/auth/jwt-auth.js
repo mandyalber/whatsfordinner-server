@@ -7,7 +7,8 @@ function requireAuth(req, res, next) {
   if (!authToken.toLowerCase().startsWith('bearer ')) {
     console.log(authToken)
     return res.status(401).json({ error: 'Missing bearer token' })
-  } else {
+  }
+  else {
     bearerToken = authToken.slice(7, authToken.length)
   }
 
@@ -19,9 +20,9 @@ function requireAuth(req, res, next) {
       payload.sub,
     )
       .then(user => {
-        if (!user)
+        if (!user) {
           return res.status(401).json({ error: 'Unauthorized request' })
-
+        }
         req.user = user
         next()
       })
@@ -29,7 +30,8 @@ function requireAuth(req, res, next) {
         console.error(err)
         next(err)
       })
-  } catch(error) {
+  } 
+  catch (error) {
     res.status(401).json({ error: 'Unauthorized request' })
   }
 }

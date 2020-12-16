@@ -5,8 +5,7 @@ const config = require('../config')
 const AuthService = {
   getUserWithEmail(db, email) {
     return db('wfd_users')
-      .where({ email })
-      .first()
+      .where({ email }).first()
   },
   comparePasswords(password, hash) {
     return bcrypt.compare(password, hash)

@@ -27,6 +27,7 @@ const SearchRecipeService = {
     const url = API_ENDPOINT + queryString
 
     //console.log(url)
+    const filters = [diet, intolerances, cuisine, includeIngredients, excludeIngredients]
 
     fetch(url)
         .then(response => {
@@ -35,7 +36,9 @@ const SearchRecipeService = {
             }
             return response.json()
         })
-        .then(recipes => res.json(recipes.results))
+        .then(recipes => 
+          res.json({recipes: recipes.results, filters: filters})
+          )
         .catch(error => console.log(error))
   }, 
 }

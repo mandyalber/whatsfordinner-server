@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken')
 const app = require('../src/app')
 const helpers = require('./test-helpers')
 
-describe.only('Auth Endpoints', function() {
+describe('Auth Endpoints', function() {
   let db
 
   const testUsers = helpers.makeUsersArray()
@@ -82,6 +82,7 @@ describe.only('Auth Endpoints', function() {
         .send(userValidCreds)
         .expect(200, {
           authToken: expectedToken,
+          name: testUser.display_name
         })
     })
   })

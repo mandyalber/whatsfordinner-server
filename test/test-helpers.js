@@ -1,6 +1,5 @@
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const { getUserWithEmail } = require('../src/auth/auth-service')
 
 function makeUsersArray() {
     return [
@@ -30,52 +29,98 @@ function makeUsersArray() {
         },
     ]
 }
-/*
-function makeArticlesArray(users) {
-  return [
-    {
-      id: 1,
-      title: 'First test post!',
-      style: 'How-to',
-      author_id: users[0].id,
-      date_created: new Date('2029-01-22T16:28:32.615Z'),
-      content: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus consequuntur deserunt commodi, nobis qui inventore corrupti iusto aliquid debitis unde non.Adipisci, pariatur.Molestiae, libero esse hic adipisci autem neque ?',
-    },
-    {
-      id: 2,
-      title: 'Second test post!',
-      style: 'Interview',
-      author_id: users[1].id,
-      date_created: new Date('2029-01-22T16:28:32.615Z'),
-      content: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus consequuntur deserunt commodi, nobis qui inventore corrupti iusto aliquid debitis unde non.Adipisci, pariatur.Molestiae, libero esse hic adipisci autem neque ?',
-    },
-    {
-      id: 3,
-      title: 'Third test post!',
-      style: 'News',
-      author_id: users[2].id,
-      date_created: new Date('2029-01-22T16:28:32.615Z'),
-      content: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus consequuntur deserunt commodi, nobis qui inventore corrupti iusto aliquid debitis unde non.Adipisci, pariatur.Molestiae, libero esse hic adipisci autem neque ?',
-    },
-    {
-      id: 4,
-      title: 'Fourth test post!',
-      style: 'Listicle',
-      author_id: users[3].id,
-      date_created: new Date('2029-01-22T16:28:32.615Z'),
-      content: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus consequuntur deserunt commodi, nobis qui inventore corrupti iusto aliquid debitis unde non.Adipisci, pariatur.Molestiae, libero esse hic adipisci autem neque ?',
-    },
-  ]
-}*/
 
-
-/*
-function makeArticlesFixtures() {
-    const testUsers = makeUsersArray()
-    //const testArticles = makeArticlesArray(testUsers)
-    return { testUsers, testArticles }
+function makeRecipesArray(users) {
+    return [
+        {
+            userId: 1,
+            recipeId: 782601,
+            title: 'User 1 first recipe',
+            sourceUrl: 'http://foodandspice.blogspot.com/2016/05/red-kidney-bean-jambalaya.html',
+            image: ' https://spoonacular.com/recipeImages/782601-312x231.jpg',
+            summary: 'test​​'
+        },
+        {
+            userId: 1,
+            recipeId: 782602,
+            title: 'User 2 first recipe',
+            sourceUrl: 'http://foodandspice.blogspot.com/2016/05/red-kidney-bean-jambalaya.html',
+            image: ' https://spoonacular.com/recipeImages/782601-312x231.jpg',
+            summary: 'test​​'
+        },
+        {
+            userId: 1,
+            recipeId: 782603,
+            title: 'User 3 first recipe',
+            sourceUrl: 'http://foodandspice.blogspot.com/2016/05/red-kidney-bean-jambalaya.html',
+            image: ' https://spoonacular.com/recipeImages/782601-312x231.jpg',
+            summary: 'test​​'
+        },
+        {
+            userId: 1,
+            recipeId: 782604,
+            title: 'User 4 first recipe',
+            sourceUrl: 'http://foodandspice.blogspot.com/2016/05/red-kidney-bean-jambalaya.html',
+            image: ' https://spoonacular.com/recipeImages/782601-312x231.jpg',
+            summary: 'test​​'
+        },
+        {
+            userId: 1,
+            recipeId: 782605,
+            title: 'User 4 first recipe',
+            sourceUrl: 'http://foodandspice.blogspot.com/2016/05/red-kidney-bean-jambalaya.html',
+            image: ' https://spoonacular.com/recipeImages/782601-312x231.jpg',
+            summary: 'test​​'
+        },
+        {
+            userId: 1,
+            recipeId: 782606,
+            title: 'User 4 first recipe',
+            sourceUrl: 'http://foodandspice.blogspot.com/2016/05/red-kidney-bean-jambalaya.html',
+            image: ' https://spoonacular.com/recipeImages/782601-312x231.jpg',
+            summary: 'test​​'
+        },
+        {
+            userId: 1,
+            recipeId: 782607,
+            title: 'User 4 first recipe',
+            sourceUrl: 'http://foodandspice.blogspot.com/2016/05/red-kidney-bean-jambalaya.html',
+            image: ' https://spoonacular.com/recipeImages/782601-312x231.jpg',
+            summary: 'test​​'
+        },
+    ]
 }
-*/
+
+const recipesDefault = [{ "title": "See More Recipes Here", "summary": "Please add at least 7 recipes to your profile in order to see a full week of recipe suggestions" },{ "title": "See More Recipes Here", "summary": "Please add at least 7 recipes to your profile in order to see a full week of recipe suggestions" },{ "title": "See More Recipes Here", "summary": "Please add at least 7 recipes to your profile in order to see a full week of recipe suggestions" },{ "title": "See More Recipes Here", "summary": "Please add at least 7 recipes to your profile in order to see a full week of recipe suggestions" },{ "title": "See More Recipes Here", "summary": "Please add at least 7 recipes to your profile in order to see a full week of recipe suggestions" },{ "title": "See More Recipes Here", "summary": "Please add at least 7 recipes to your profile in order to see a full week of recipe suggestions" },{ "title": "See More Recipes Here", "summary": "Please add at least 7 recipes to your profile in order to see a full week of recipe suggestions" }]
+
+const recipeDefault = recipesDefault[0]
+
+function getExpectedRecipes(user, recipes) {
+    return recipes.filter(recipe => user.id === recipe.userId)
+}
+
+function getRandomRecipes(array) {
+    let newArray = [];
+    const len = array.length
+
+    if (len < 7) {
+        for (let i = 0; i < 7 - len; i++) {
+            array.push(recipeDefault)
+        }
+    }
+    for (let i = 0; i < 7; i++) {
+        let idx = Math.floor(Math.random() * array.length)
+        newArray.push(array[idx])
+        array.splice(idx, 1)
+    }
+    return newArray
+}
+
+function makeRecipesFixtures() {
+    const testUsers = makeUsersArray()
+    const testRecipes = makeRecipesArray(testUsers)
+    return { testUsers, testRecipes }
+}
 
 function cleanTables(db) {
     return db.transaction(trx =>
@@ -101,53 +146,32 @@ function seedUsers(db, users) {
             db.raw(`SELECT setval('wfd_users_id_seq', ?)`, [users[users.length - 1].id])
         )
 }
-/*
-function seedArticlesTables(db, users, articles, comments = []) {
-    // use a transaction to group the queries and auto rollback on any failure
+
+function seedRecipesTables(db, users, recipes = []) {
     return db.transaction(async trx => {
         await seedUsers(trx, users)
-        await trx.into('blogful_articles').insert(articles)
-        // update the auto sequence to match the forced id values
-        await trx.raw(
-            `SELECT setval('blogful_articles_id_seq', ?)`,
-            [articles[articles.length - 1].id],
-        )
-        // only insert comments if there are some, also update the sequence counter
-        if (comments.length) {
-            await trx.into('blogful_comments').insert(comments)
-            await trx.raw(
-                `SELECT setval('blogful_comments_id_seq', ?)`,
-                [comments[comments.length - 1].id],
-            )
-        }
+        await trx.into('saved_recipes').insert(recipes)
     })
 }
-
-function seedMaliciousArticle(db, user, article) {
-    return seedUsers(db, [user])
-        .then(() =>
-            db
-                .into('blogful_articles')
-                .insert([article])
-        )
-}*/
 
 function makeAuthHeader(user, secret = process.env.JWT_SECRET) {
     const token = jwt.sign({ user_id: user.id }, secret, {
         subject: user.email,
         algorithm: 'HS256',
     })
-    return `Bearer ${token}`
+    return `bearer ${token}`
 }
 
 module.exports = {
     makeUsersArray,
-    //makeArticlesArray,
-    //makeMaliciousArticle,
-    //makeArticlesFixtures,
+    makeRecipesArray,
+    getExpectedRecipes,
+    getRandomRecipes,
+    makeRecipesFixtures,
+    recipesDefault,
+    recipesDefault,
     cleanTables,
-    //seedArticlesTables,
-    //seedMaliciousArticle,
     makeAuthHeader,
     seedUsers,
+    seedRecipesTables
 }

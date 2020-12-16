@@ -27,15 +27,7 @@ function getRandomArray(array) {
 
 savedRecipesRouter
     .route('/')
-    .all(requireAuth)/*
-    .get((req, res, next) => {
-        const knexInstance = req.app.get('db')
-        SavedRecipesService.getAllRecipes(knexInstance)
-            .then(recipes => {
-                res.json(recipes)
-            })
-            .catch(next)
-    })*/
+    .all(requireAuth)
     .get((req, res, next) => {
         const knexInstance = req.app.get('db')
         SavedRecipesService.getRecipesByUserId(knexInstance, req.user.id)
@@ -47,13 +39,19 @@ savedRecipesRouter
     .post(jsonParser, (req, res, next) => {
         const { recipeId, title, sourceUrl, image, summary } = req.body
         const newRecipe = { recipeId, title, sourceUrl, image, summary }
+        newRecipe.userId = req.user.id
 
-        SavedRecipesService.insertRecipe(req.app.get('db'), newRecipe)
-            .then(recipe => {
-                res.status(201).json(recipe)
-                console.log(recipe)
+        SavedRecipesService.hasRecipeWithUserId(req.app.get('db'), req.user.id, recipeId)
+            .then(hasRecipeWithUserId => {
+                if (hasRecipeWithUserId) {
+                    return res.status(400).json({ error: `You've already saved this recipe` })
+                }
+                return SavedRecipesService.insertRecipe(req.app.get('db'), newRecipe)
+                    .then(recipe => {
+                        res.status(201).json({ message: 'Saved!'})
+                    })
+                    .catch(next)
             })
-            .catch(next)
     })
 
 savedRecipesRouter
