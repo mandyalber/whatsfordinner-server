@@ -23,6 +23,9 @@ app.use('/api/search-recipes', searchRecipesRouter)
 app.use('/api/auth', authRouter)
 app.use('/api/users', usersRouter)
 
+app.get('/', (req, res) => {
+  res.send('Hello world')
+})
 
 app.use(function errorHandler(error, req, res, next) {
   let response
