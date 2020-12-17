@@ -7,4 +7,3 @@ module.exports = {
     DATABASE_URL: process.env.DB_URL || "postgres://rmeaeyrvrliqti:dc0d40fe384e34cdba94b7830027a3ac47cd6b3df2a84fa3b52404c754e0d4a0@ec2-3-218-123-191.compute-1.amazonaws.com:5432/d51ehljf4bhffj",
     JWT_SECRET: process.env.JWT_SECRET || 'change-this-secret'
   }
-  d51ehljf4bhffj
