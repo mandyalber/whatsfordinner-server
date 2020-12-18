@@ -36,14 +36,7 @@ authRouter
             }
             const sub = dbUser.email
             const payload = { user_id: dbUser.id }
-            /*
-            1. Create JWT
-            2. Save create token into DB. Either by associating sessions with user id and/or email with valid token.
-            3. On each request of verified user authenticate sent token to validate request
-            4. Then do request
 
-            On sign out invalidate token so that each subsequent request is invalid by step 3 above.
-            */
             res.send({
               authToken: AuthService.createJwt(sub, payload),
               name: dbUser.display_name
