@@ -7,3 +7,6 @@ module.exports = {
     DATABASE_URL: process.env.DATABASE_URL || "postgresql://postgres:password@localhost/whatsfordinner",
     JWT_SECRET: process.env.JWT_SECRET || 'change-this-secret'
   }
+
+  // Research: https://devcenter.heroku.com/articles/config-vars
+  // Somet"env:deploy": "echo $(cat .env) heroku config:set {}",
