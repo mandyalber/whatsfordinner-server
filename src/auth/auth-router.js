@@ -42,7 +42,7 @@ authRouter
               name: dbUser.display_name
             })
           })
-      })
+      }) 
       .catch(next)
   })
 
