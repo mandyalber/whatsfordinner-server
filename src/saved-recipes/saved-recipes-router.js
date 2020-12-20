@@ -1,4 +1,3 @@
-//Write routers to perform CRUD operations for Folders.
 const express = require('express')
 const SavedRecipesService = require('./saved-recipes-service')
 const { requireAuth } = require('../auth/jwt-auth')

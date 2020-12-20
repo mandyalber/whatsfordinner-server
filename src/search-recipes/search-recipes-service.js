@@ -26,14 +26,10 @@ const SearchRecipeService = {
     const queryString = formatQueryParams(params)
     const url = API_ENDPOINT + queryString
 
-    //console.log(url)
     const filters = [diet, intolerances, cuisine, includeIngredients, excludeIngredients]
-
-    //console.log('Search URL', url);
 
     fetch(url)
         .then(response => {
-            //console.log('Search response', response);
             if (!response.ok) {
               throw new Error(response.status)
             }
