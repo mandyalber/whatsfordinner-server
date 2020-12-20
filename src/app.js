@@ -16,7 +16,9 @@ const morganOption = (NODE_ENV === 'production') ? 'tiny' : 'common';
 app.use(morgan(morganOption))
 app.use(helmet())
 
-app.use(cors());
+app.use(cors({
+  origin: CLIENT_ORIGIN
+}));
 
 app.use('/api/saved-recipes', savedRecipesRouter)
 app.use('/api/search-recipes', searchRecipesRouter)
@@ -24,7 +26,7 @@ app.use('/api/auth', authRouter)
 app.use('/api/users', usersRouter)
 
 app.get('/', (req, res) => {
-  res.send('Hello world')
+  res.send(`Backend application for What's for Dinner Client located @ whatsfordinner-app.vercel.app`)
 })
 
 app.use(function errorHandler(error, req, res, next) {

@@ -44,11 +44,11 @@ savedRecipesRouter
         SavedRecipesService.hasRecipeWithUserId(req.app.get('db'), req.user.id, recipeId)
             .then(hasRecipeWithUserId => {
                 if (hasRecipeWithUserId) {
-                    return res.status(400).json({ error: `You've already saved this recipe` })
+                    return res.status(400).json({ error: `You've already saved this recipe.` })
                 }
                 return SavedRecipesService.insertRecipe(req.app.get('db'), newRecipe)
                     .then(recipe => {
-                        res.status(201).json({ message: 'Saved!'})
+                        res.status(201).json({ message: 'Saved to your dashboard!'})
                     })
                     .catch(next)
             })
