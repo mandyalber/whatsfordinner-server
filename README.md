@@ -52,7 +52,7 @@ Returns json data with a random 7 recipes a user has saved.
 URL /api/saved-recipes/weekdays
 Method: GET
 Params: user.id
-Success Response:
+Success Response: 
   Code: 200
   Content: 
     { userId: 1, recipeId: 777777, title: "Recipe", sourceUrl: "recipe.com", image: "recipeimage.com", summary: "Recipe Summary Description" }
