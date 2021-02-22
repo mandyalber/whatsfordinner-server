@@ -1,5 +1,6 @@
 const { expect } = require('chai')
 const knex = require('knex')
+const supertest = require('supertest')
 const app = require('../src/app')
 const helpers = require('./test-helpers')
 
@@ -22,7 +23,7 @@ describe('Saved Recipes Endpoints', function () {
 
     afterEach('cleanup', () => helpers.cleanTables(db))
 
-    describe(`GET /api/saved-recipes`, () => {
+    describe.only(`GET /api/saved-recipes`, () => {
         context(`Given no recipes for user`, () => {
             beforeEach('insert users', () =>
                 helpers.seedUsers(db, testUsers)
@@ -57,7 +58,6 @@ describe('Saved Recipes Endpoints', function () {
             helpers.seedRecipesTables(db, testUsers, testRecipes)
         )
         context('Recipe does not exist in DB', () => {
-
             it('Reponds 201, Saved! and inserts recipe in the database', () => {
                 const newRecipe = {
                     userId: 2,
@@ -71,7 +71,7 @@ describe('Saved Recipes Endpoints', function () {
                     .post('/api/saved-recipes')
                     .set('Authorization', helpers.makeAuthHeader(testUsers[1]))
                     .send(newRecipe)
-                    .expect(201, { "message": "Saved!" })
+                    .expect(201, { "message": "Saved to your dashboard!" })
                     .expect(res =>
                         db
                             .from('saved_recipes')
@@ -91,14 +91,28 @@ describe('Saved Recipes Endpoints', function () {
                     )
             })
         })
-        context('Recipe does already exists in DB', () => {
-            it(`Reponds 400, You've already saved this recipe`, () => {
+        context('Recipe already exists in DB', () => {
+            it(`Reponds 400, You've already saved this recipe.`, () => {
                 const newRecipe = testRecipes[0]
                 return supertest(app)
                     .post('/api/saved-recipes')
                     .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
                     .send(newRecipe)
-                    .expect(400, { error: `You've already saved this recipe` })
+                    .expect(400, { error: `You've already saved this recipe.` })
+            })
+        })
+    })
+
+    describe(`DELETE /api/saved-recipes/:recipeId`, () => {
+        beforeEach('insert recipes', () =>
+            helpers.seedRecipesTables(db, testUsers, testRecipes)            
+        )
+        it('should respond 204 and delete the recipe', () => {
+            return db('saved_recipes').first().then(recipe => {
+                return supertest(app)
+                    .delete(`/api/saved-recipes/${recipe.recipeId}`)
+                    .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
+                    .expect(204)
             })
         })
     })

@@ -41,17 +41,29 @@ savedRecipesRouter
         newRecipe.userId = req.user.id
 
         SavedRecipesService.hasRecipeWithUserId(req.app.get('db'), req.user.id, recipeId)
-            .then(hasRecipeWithUserId => {
-                if (hasRecipeWithUserId) {
+            .then(recipe => {
+                if (recipe) {
                     return res.status(400).json({ error: `You've already saved this recipe.` })
                 }
                 return SavedRecipesService.insertRecipe(req.app.get('db'), newRecipe)
                     .then(recipe => {
-                        res.status(201).json({ message: 'Saved to your dashboard!'})
+                        res.status(201).json({ message: 'Saved to your dashboard!' })
                     })
                     .catch(next)
             })
     })
+
+savedRecipesRouter
+    .route('/:recipeId')
+    .all(requireAuth)
+    .delete((req, res, next) => {
+        SavedRecipesService.deleteRecipeById(req.app.get('db'), req.user.id, req.params.recipeId)
+            .then(recipe => {
+                res.send(204).end()
+            })
+            .catch(next)
+    })
+
 
 savedRecipesRouter
     .route('/weekdays')
