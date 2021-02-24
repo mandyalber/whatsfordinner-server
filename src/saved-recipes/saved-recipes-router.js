@@ -57,6 +57,7 @@ savedRecipesRouter
     .route('/:recipeId')
     .all(requireAuth)
     .delete((req, res, next) => {
+        console.log(req.params)
         SavedRecipesService.deleteRecipeById(req.app.get('db'), req.user.id, req.params.recipeId)
             .then(recipe => {
                 res.send(204).end()
